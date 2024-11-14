@@ -1,0 +1,93 @@
+/* Fondo y fuente estilo terminal */
+body {
+    background-color: #000; /* Fondo oscuro */
+    color: #0f0; /* Texto verde */
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Encabezados en verde claro para diferenciar */
+h1, h2, h3, h4, h5, h6 {
+    color: #32cd32; /* Verde claro */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Enlaces en color azul */
+a {
+    color: #1e90ff; /* Azul */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Código en bloques destacados */
+pre {
+    background-color: #111; /* Fondo oscuro */
+    padding: 10px;
+    color: #0f0; /* Texto verde */
+    border: 1px solid #333;
+    overflow-x: auto;
+}
+
+code {
+    background-color: #222; /* Fondo ligeramente más claro */
+    padding: 2px 4px;
+    color: #0f0; /* Texto verde */
+    font-size: 0.95em;
+}
+
+/* Listas y párrafos */
+p, ul, ol {
+    margin-bottom: 1em;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #333;
+}
+
+th {
+    background-color: #111;
+    color: #0f0; /* Verde */
+}
+
+td {
+    background-color: #222;
+}
+
+/* Citas en bloque */
+blockquote {
+    border-left: 4px solid #32cd32;
+    padding-left: 10px;
+    margin-left: 0;
+    color: #32cd32; /* Verde claro */
+    font-style: italic;
+}
+
+/* Separador horizontal */
+hr {
+    border: 1px solid #333;
+    margin: 20px 0;
+}
