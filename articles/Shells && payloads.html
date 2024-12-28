@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H4X0R</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Terminal interactiva -->
+    <div id="terminal" class="terminal">
+        <p>P0R H4CK3R Y P4R4 H4CK3R 😈​💀​☠️​</p>
+        <p><span class="command">list</span> para ver los artículos </p>
+        <p><span class="command">read [nombre del artículo]</span> para abrir uno.</p>
+    </div>
+    <input type="text" id="input" placeholder="Escribe un comando..." autofocus>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const input = document.getElementById('input');
+        let articles = {};
+
+        // Cargar artículos desde articles.json
+        fetch('articles.json')
+            .then(response => response.json())
+            .then(data => {
+                articles = data.reduce((acc, article) => {
+                    acc[article.title.toLowerCase()] = article.path;
+                    return acc;
+                }, {});
+            })
+            .catch(error => {
+                console.error("Error cargando los artículos:", error);
+            });
+
+        // Función para mostrar mensajes en la terminal
+        function displayMessage(message) {
+            const line = document.createElement("p");
+            line.textContent = message;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight; // Mantiene el scroll en la parte inferior
+        }
+
+        // Manejo de entrada de comandos
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                const command = input.value.trim().toLowerCase();
+                input.value = "";
+
+                if (command === "list") {
+                    displayMessage("Artículos disponibles:");
+                    for (const title in articles) {
+                        displayMessage(`- Shell &amp;&amp; Payloads`);
+                    }
+                } else if (command.startsWith("read")) {
+                    const articleTitle = command.slice(5).trim();
+                    const articlePath = articles[articleTitle];
+
+                    if (articlePath) {
+                        displayMessage(`Cargando ...`);
+                        window.location.href = articlePath;
+                    } else {
+                        displayMessage("Artículo no encontrado.");
+                    }
+                } else {
+                    displayMessage("Comando no reconocido.");
+                }
+            }
+        });
+    </script>
+</body>
+</html>
